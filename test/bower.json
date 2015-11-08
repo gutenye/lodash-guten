@@ -1,0 +1,21 @@
+{
+  "name": "test",
+  "homepage": "https://github.com/gutenye/lodash-guten",
+  "authors": [
+    "Guten Ye <ywzhaifei@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "lodash": "~3.10.1"
+  }
+}

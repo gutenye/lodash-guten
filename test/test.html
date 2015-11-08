@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test lodash</title>
+</head>
+<body>
+	<input>
+</body>
+<script src="bower_components/lodash/lodash.js"></script>
+<script src="../dist/lodash-guten.js"></script>
+<script>
+	var pd = console.log.bind(console)
+	var $ = function(selector) { return typeof selector === "string" ? document.querySelector(selector) : selector || null }
+	var $$ = function(selector) { return [].slice.call(document.querySelectorAll(selector)) }
+
+	$("input").addEventListener("keydown", e => {
+		pd(_.keystroke(e))
+	})
+</script>
+</html>

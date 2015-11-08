@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+build() {
+  rollup lodash-guten.js --format umd | babel --presets es2015 --output dist/lodash-guten.js
+}
+
+release() {
+  build
+  sed -i "s/\"version\":.*/\"version\": \"$1\",/" bower.json package.json
+  cp bower.json package.json dist
+
+  cd dist
+  # npm release
+  npm publish
+
+  # bower release
+  git add .
+  git commit -m "$1"
+  git tag "$1"
+  git push --tags
+}
+
+
+case "$1" in
+  build | b ) build ;;
+  release | r ) shift; release "$@" ;;
+esac
