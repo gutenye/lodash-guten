@@ -24,6 +24,6 @@ $ bower install lodash lodash-guten
 In Node
 ```
 $ npm install lodash lodash-guten
-var _ = require("lodash")
+gloabl._ = require("lodash")
 require("lodash-guten")
 ```

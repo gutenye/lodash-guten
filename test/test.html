@@ -13,6 +13,8 @@
 	var $ = function(selector) { return typeof selector === "string" ? document.querySelector(selector) : selector || null }
 	var $$ = function(selector) { return [].slice.call(document.querySelectorAll(selector)) }
 
+  pd(_.map, _.keystroke)
+
 	$("input").addEventListener("keydown", e => {
 		pd(_.keystroke(e))
 	})

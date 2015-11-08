@@ -1,5 +1,3 @@
-import _ from "lodash"
-
 function insert(array, index, value) {
   array.splice(index, 0, value)
 }
