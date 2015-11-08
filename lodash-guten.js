@@ -1,10 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('lodash')) :
-  typeof define === 'function' && define.amd ? define(['lodash'], factory) :
-  factory(global._);
-}(this, function (_) { 'use strict';
-
-  _ = 'default' in _ ? _['default'] : _;
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  factory();
+}(this, function () { 'use strict';
 
   function insert(array, index, value) {
     array.splice(index, 0, value);
