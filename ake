@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
 build() {
-  rollup -c
+  #rollup -c
+  :
 }
 
 release() {
   build
   sed -i "s/\"version\":.*/\"version\": \"$1\",/" bower.json package.json
-  cp bower.json package.json dist
+  cp lodash-guten.js bower.json package.json dist
 
   cd dist
   # npm release
