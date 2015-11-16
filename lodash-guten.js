@@ -1,28 +1,27 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require("lodash")) :
   typeof define === 'function' && define.amd ? define(factory) :
-  factory();
-}(this, function () { 'use strict';
-
+  global._ = factory(_)
+}(this, function (_) {
   function insert(array, index, value) {
-    array.splice(index, 0, value);
+    array.splice(index, 0, value)
   }
   _.insert = insert;
 
   function swap(array, i, j) {
-    var tmp = array[j];
-    array[j] = array[i];
-    array[i] = tmp;
+    var tmp = array[j]
+    array[j] = array[i]
+    array[i] = tmp
   }
   _.swap = swap;
 
   function moveTo(array, i, j) {
     if (i === j) {
-      return array;
+      return array
     }
-    var value = _.pullAt(array, i)[0];
-    insert(array, j, value);
-    return array;
+    var value = _.pullAt(array, i)[0]
+    insert(array, j, value)
+    return array
   }
   _.moveTo = moveTo;
 
@@ -31,11 +30,11 @@
     0: "left",
     1: "middle",
     2: "right"
-  };
-  function mousestroke(e) {
-    return _buttonMap[e.button];
   }
-  _.mousestroke = mousestroke;
+  function mousestroke(e) {
+    return _buttonMap[e.button]
+  }
+  _.mousestroke = mousestroke
 
   // _.keystroke(event) -> "a" "ctrl-a" "ctrl-alt-shift-cmd-a"
   var keystrokes = {
@@ -77,47 +76,78 @@
     219: "[",
     220: "\\",
     221: "]",
-    222: "'"
-  };
+    222: "'",
+  }
   // lower case chars
-  for (var i = 97; i < 123; i++) keystrokes[i - 32] = String.fromCharCode(i);
+  for (var i = 97; i < 123; i++) keystrokes[i-32] = String.fromCharCode(i)
   // numbers
-  for (i = 48; i < 58; i++) keystrokes[i] = `${ i - 48 }`;
+  for (i = 48; i < 58; i++) keystrokes[i] = `${i - 48}`
   // function keys
-  for (i = 1; i < 13; i++) keystrokes[i + 111] = `f${ i }`;
+  for (i = 1; i < 13; i++) keystrokes[i+111] = `f${i}`
   // numpad keys
-  for (i = 0; i < 10; i++) keystrokes[i + 96] = `numpad${ i }`;
+  for (i = 0; i < 10; i++) keystrokes[i+96] = `numpad${i}`
 
   function keystroke(event) {
-    var keyCode = event.which || event.keyCode || event.charCode;
-    var key = keystrokes[keyCode];
+    var keyCode = event.which || event.keyCode || event.charCode
+    var key = keystrokes[keyCode]
 
-    var keystroke = '';
+    var keystroke = ''
     if (event.ctrlKey) {
-      keystroke += 'ctrl';
+      keystroke += 'ctrl'
     }
     if (event.altKey) {
-      if (keystroke) keystroke += '-';
-      keystroke += 'alt';
+      if (keystroke)
+        keystroke += '-'
+      keystroke += 'alt'
     }
     if (event.shiftKey) {
       // Don't push 'shift' when modifying symbolic characters like '{'
       if (!/^[^A-Za-z]$/.test(key)) {
-        if (keystroke) keystroke += '-';
-        keystroke += 'shift';
+        if (keystroke)
+          keystroke += '-'
+        keystroke += 'shift'
       }
     }
     if (event.metaKey) {
-      if (keystroke) keystroke += '-';
-      keystroke += 'cmd';
+      if (keystroke)
+        keystroke += '-'
+      keystroke += 'cmd'
     }
     if (key) {
-      if (keystroke) keystroke += '-';
-      keystroke += key;
+      if (keystroke)
+        keystroke += '-'
+      keystroke += key
     }
 
-    return keystroke;
+    return keystroke
   }
-  _.keystroke = keystroke;
+  _.keystroke = keystroke
 
-}));
+  // - add param options for GET.
+  // - add JSON.stringify(body) with "Content-Type": "application/json" if body is object.
+  function _fetch(url, options) {
+    var query = ""
+    if (options.param)
+      query = `?${param(options.param)}`
+    if (_.isObject(options.body)) {
+      options.headers = options.headers || {}
+      options.headers["Content-Type"] = "application/json"
+      options.body = JSON.stringify(options.body)
+    }
+
+    return fetch(`${url}${query}`, options).then(resp => {
+      if (resp.ok)
+        return resp.json()
+      else
+        return Promise.reject(new Error(resp.statusText))
+    })
+  }
+  _.fetch = _fetch
+
+  function param(arg) {
+    return arg ? Object.keys(arg).reduce((a,k) => {a.push(k+'='+encodeURIComponent(arg[k])); return a}, []).join('&') : ""
+  }
+  _.param = param
+
+  return _
+}))
