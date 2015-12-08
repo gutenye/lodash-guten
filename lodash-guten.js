@@ -25,6 +25,12 @@
   }
   _.moveTo = moveTo;
 
+
+  function wrapArray(array) {
+    return _.isArray(array) ? array : [array]
+  }
+  _.wrapArray = wrapArray;
+
   // _.mousestroke(e) -> "left" right middle
   var _buttonMap = {
     0: "left",
@@ -134,6 +140,7 @@
       options.headers["Content-Type"] = "application/json"
       options.body = JSON.stringify(options.body)
     }
+    console.log(1, query)
 
     return fetch(`${url}${query}`, options).then(resp => {
       if (resp.ok)
