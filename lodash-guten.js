@@ -25,6 +25,12 @@
   }
   _.moveTo = moveTo;
 
+
+  function wrapArray(array) {
+    return _.isArray(array) ? array : [array]
+  }
+  _.wrapArray = wrapArray;
+
   // _.mousestroke(e) -> "left" right middle
   var _buttonMap = {
     0: "left",
@@ -123,17 +129,18 @@
   }
   _.keystroke = keystroke
 
-  // - add param options for GET.
+  // - add params options for GET.
   // - add JSON.stringify(body) with "Content-Type": "application/json" if body is object.
   function _fetch(url, options) {
     var query = ""
-    if (options.param)
-      query = `?${param(options.param)}`
+    if (options.params)
+      query = `?${params(options.params)}`
     if (_.isObject(options.body)) {
       options.headers = options.headers || {}
       options.headers["Content-Type"] = "application/json"
       options.body = JSON.stringify(options.body)
     }
+    console.log(1, query)
 
     return fetch(`${url}${query}`, options).then(resp => {
       if (resp.ok)
@@ -144,10 +151,10 @@
   }
   _.fetch = _fetch
 
-  function param(arg) {
+  function params(arg) {
     return arg ? Object.keys(arg).reduce((a,k) => {a.push(k+'='+encodeURIComponent(arg[k])); return a}, []).join('&') : ""
   }
-  _.param = param
+  _.params = params
 
   return _
 }))

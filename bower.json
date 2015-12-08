@@ -1,7 +1,7 @@
 {
   "name": "lodash-guten",
   "main": "lodash-guten.js",
-  "version": "3.10.4",
+  "version": "3.10.5",
   "ignore": [
     ".*",
     "*.custom.*",
