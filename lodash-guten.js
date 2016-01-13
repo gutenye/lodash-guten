@@ -140,7 +140,6 @@
       options.headers["Content-Type"] = "application/json"
       options.body = JSON.stringify(options.body)
     }
-    console.log(1, query)
 
     return fetch(`${url}${query}`, options).then(resp => {
       if (resp.ok)
