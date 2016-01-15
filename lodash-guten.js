@@ -3,17 +3,21 @@
   typeof define === 'function' && define.amd ? define(factory) :
   global._ = factory(_)
 }(this, function (_) {
+  ////////////
+  // Array
+  ///////////
+
   function insert(array, index, value) {
     array.splice(index, 0, value)
   }
-  _.insert = insert;
+  _.insert = insert
 
   function swap(array, i, j) {
     var tmp = array[j]
     array[j] = array[i]
     array[i] = tmp
   }
-  _.swap = swap;
+  _.swap = swap
 
   function moveTo(array, i, j) {
     if (i === j) {
@@ -23,13 +27,26 @@
     insert(array, j, value)
     return array
   }
-  _.moveTo = moveTo;
+  _.moveTo = moveTo
 
 
   function wrapArray(array) {
     return _.isArray(array) ? array : [array]
   }
-  _.wrapArray = wrapArray;
+  _.wrapArray = wrapArray
+
+  ///////////
+  // Object
+  //////////
+
+  function pickBang(object, ...keys) {
+    var ret = _.pick(object, ...keys)
+    keys.forEach(key => {
+      delete object[key]
+    })
+    return ret
+  }
+  _.pickBang = pickBang
 
   // _.mousestroke(e) -> "left" right middle
   var _buttonMap = {
