@@ -1,6 +1,6 @@
 {
   "name": "lodash-guten",
-  "version": "3.10.6",
+  "version": "3.10.7",
   "description": "",
   "main": "lodash-guten.js",
   "scripts": {
@@ -8,9 +8,6 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "lodash": ""
-  },
   "devDependencies": {
     "babel-core": "^6.1.2",
     "babel-loader": "^6.0.1",
