@@ -4,7 +4,7 @@
   global._ = factory(_)
 }(this, function (_) {
   ////////////
-  // Array
+  // ¤Array
   ///////////
 
   function insert(array, index, value) {
@@ -36,9 +36,31 @@
   _.wrapArray = wrapArray
 
   ///////////
-  // Object
+  // ¤Object
   //////////
 
+  // Iterate object and create a new object.
+  //
+  // mapOwn(object, callback{value, key, result}) // -> new result object
+  //
+  // Example:
+  //
+  //   mapOwn({a: 1}, (value, key, result) => {
+  //     result[key.toUpperCase()] = value
+  //   })
+  //   // => {A: 1}
+  //
+  function mapOwn(object, callback) {
+    var result = {}
+    _.forOwn(object, (value, key) => {
+      callback(value, key, result)
+    })
+    return result
+  }
+  _.mapOwn = mapOwn
+
+  // Like pick, but modify in Place
+  //
   function pickBang(object, ...keys) {
     var ret = _.pick(object, ...keys)
     keys.forEach(key => {
@@ -47,6 +69,10 @@
     return ret
   }
   _.pickBang = pickBang
+
+  //////////////
+  // ¤DOM
+  /////////////
 
   // _.mousestroke(e) -> "left" right middle
   var _buttonMap = {
