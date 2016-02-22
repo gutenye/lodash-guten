@@ -1,13 +1,13 @@
 {
   "name": "lodash-guten",
-  "version": "3.10.8",
-  "description": "",
+  "version": "3.10.9",
+  "description": "additions to lodash",
   "main": "lodash-guten.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": "gutenye/lodash-guten",
+  "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.1.2",
     "babel-loader": "^6.0.1",
