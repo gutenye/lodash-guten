@@ -1,39 +1,40 @@
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require("lodash")) :
-  typeof define === 'function' && define.amd ? define(factory) :
-  global._ = factory(_)
-}(this, function (_) {
+  (typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory(require("lodash")) : typeof define === 'function' && define.amd ? define(factory) : global._ = factory(_);
+})(this, function (_) {
   ////////////
   // ¤Array
   ///////////
 
   function insert(array, index, value) {
-    array.splice(index, 0, value)
+    array.splice(index, 0, value);
   }
-  _.insert = insert
+  _.insert = insert;
 
   function swap(array, i, j) {
-    var tmp = array[j]
-    array[j] = array[i]
-    array[i] = tmp
+    var tmp = array[j];
+    array[j] = array[i];
+    array[i] = tmp;
   }
-  _.swap = swap
+  _.swap = swap;
 
   function moveTo(array, i, j) {
     if (i === j) {
-      return array
+      return array;
     }
-    var value = _.pullAt(array, i)[0]
-    insert(array, j, value)
-    return array
+    var value = _.pullAt(array, i)[0];
+    insert(array, j, value);
+    return array;
   }
-  _.moveTo = moveTo
-
+  _.moveTo = moveTo;
 
   function wrapArray(array) {
-    return _.isArray(array) ? array : [array]
+    return _.isArray(array) ? array : [array];
   }
-  _.wrapArray = wrapArray
+  _.wrapArray = wrapArray;
 
   ///////////
   // ¤Object
@@ -51,24 +52,28 @@
   //   // => {A: 1}
   //
   function mapOwn(object, callback) {
-    var result = {}
-    _.forOwn(object, (value, key) => {
-      callback(value, key, result)
-    })
-    return result
+    var result = {};
+    _.forOwn(object, function (value, key) {
+      callback(value, key, result);
+    });
+    return result;
   }
-  _.mapOwn = mapOwn
+  _.mapOwn = mapOwn;
 
   // Like pick, but modify in Place
   //
-  function pickBang(object, ...keys) {
-    var ret = _.pick(object, ...keys)
-    keys.forEach(key => {
-      delete object[key]
-    })
-    return ret
+  function pickBang(object) {
+    for (var _len = arguments.length, keys = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      keys[_key - 1] = arguments[_key];
+    }
+
+    var ret = _.pick.apply(_, [object].concat(keys));
+    keys.forEach(function (key) {
+      delete object[key];
+    });
+    return ret;
   }
-  _.pickBang = pickBang
+  _.pickBang = pickBang;
 
   //////////////
   // ¤DOM
@@ -79,11 +84,11 @@
     0: "left",
     1: "middle",
     2: "right"
-  }
+  };
   function mousestroke(e) {
-    return _buttonMap[e.button]
+    return _buttonMap[e.button];
   }
-  _.mousestroke = mousestroke
+  _.mousestroke = mousestroke;
 
   // _.keystroke(event) -> "a" "ctrl-a" "ctrl-alt-shift-cmd-a"
   var keystrokes = {
@@ -125,78 +130,73 @@
     219: "[",
     220: "\\",
     221: "]",
-    222: "'",
-  }
+    222: "'"
+  };
   // lower case chars
-  for (var i = 97; i < 123; i++) keystrokes[i-32] = String.fromCharCode(i)
+  for (var i = 97; i < 123; i++) keystrokes[i - 32] = String.fromCharCode(i);
   // numbers
-  for (i = 48; i < 58; i++) keystrokes[i] = `${i - 48}`
+  for (i = 48; i < 58; i++) keystrokes[i] = '' + (i - 48);
   // function keys
-  for (i = 1; i < 13; i++) keystrokes[i+111] = `f${i}`
+  for (i = 1; i < 13; i++) keystrokes[i + 111] = 'f' + i;
   // numpad keys
-  for (i = 0; i < 10; i++) keystrokes[i+96] = `numpad${i}`
+  for (i = 0; i < 10; i++) keystrokes[i + 96] = 'numpad' + i;
 
   function keystroke(event) {
-    var keyCode = event.which || event.keyCode || event.charCode
-    var key = keystrokes[keyCode]
+    var keyCode = event.which || event.keyCode || event.charCode;
+    var key = keystrokes[keyCode];
 
-    var keystroke = ''
+    var keystroke = '';
     if (event.ctrlKey) {
-      keystroke += 'ctrl'
+      keystroke += 'ctrl';
     }
     if (event.altKey) {
-      if (keystroke)
-        keystroke += '-'
-      keystroke += 'alt'
+      if (keystroke) keystroke += '-';
+      keystroke += 'alt';
     }
     if (event.shiftKey) {
       // Don't push 'shift' when modifying symbolic characters like '{'
       if (!/^[^A-Za-z]$/.test(key)) {
-        if (keystroke)
-          keystroke += '-'
-        keystroke += 'shift'
+        if (keystroke) keystroke += '-';
+        keystroke += 'shift';
       }
     }
     if (event.metaKey) {
-      if (keystroke)
-        keystroke += '-'
-      keystroke += 'cmd'
+      if (keystroke) keystroke += '-';
+      keystroke += 'cmd';
     }
     if (key) {
-      if (keystroke)
-        keystroke += '-'
-      keystroke += key
+      if (keystroke) keystroke += '-';
+      keystroke += key;
     }
 
-    return keystroke
+    return keystroke;
   }
-  _.keystroke = keystroke
+  _.keystroke = keystroke;
 
   // - add params options for GET.
   // - add JSON.stringify(body) with "Content-Type": "application/json" if body is object.
   function _fetch(url, options) {
-    var query = ""
-    if (options.params)
-      query = `?${params(options.params)}`
+    var query = "";
+    if (options.params) query = '?' + params(options.params);
     if (_.isObject(options.body)) {
-      options.headers = options.headers || {}
-      options.headers["Content-Type"] = "application/json"
-      options.body = JSON.stringify(options.body)
+      options.headers = options.headers || {};
+      options.headers["Content-Type"] = "application/json";
+      options.body = JSON.stringify(options.body);
     }
 
-    return fetch(`${url}${query}`, options).then(resp => {
-      if (resp.ok)
-        return resp.json()
-      else
-        return Promise.reject(new Error(resp.statusText))
-    })
+    return fetch('' + url + query, options).then(function (resp) {
+      if (resp.ok) return resp.json();else return Promise.reject(new Error(resp.statusText));
+    });
   }
-  _.fetch = _fetch
+  _.fetch = _fetch;
 
   function params(arg) {
-    return arg ? Object.keys(arg).reduce((a,k) => {a.push(k+'='+encodeURIComponent(arg[k])); return a}, []).join('&') : ""
+    return arg ? Object.keys(arg).reduce(function (a, k) {
+      a.push(k + '=' + encodeURIComponent(arg[k]));return a;
+    }, []).join('&') : "";
   }
-  _.params = params
+  _.params = params;
 
-  return _
-}))
+  return _;
+});
+

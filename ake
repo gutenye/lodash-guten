@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
+main() {
+  build
+}
+
 build() {
+  babel --presets es2015 src/lodash-guten.js > lodash-guten.js
+  sed -i 's/})(undefined,/})(this,/' lodash-guten.js
   #rollup -c
   :
 }
@@ -23,6 +29,7 @@ release() {
 
 
 case "$1" in
+  "" ) main ;;
   build | b ) build ;;
   release | r ) shift; release "$@" ;;
 esac
